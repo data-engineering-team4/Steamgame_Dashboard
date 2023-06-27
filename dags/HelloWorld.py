@@ -1,13 +1,19 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
+from plugins import slack
+
 
 dag = DAG(
     dag_id = 'HelloWorld',
     start_date = datetime(2022,5,5),
     catchup=False,
     tags=['example'],
-    schedule = '0 2 * * *')
+    schedule = '0 2 * * *',
+        default_args = {
+        'on_failure_callback': slack.on_failure_callback,
+    }
+)
 
 def print_hello():
     print("hello!")
