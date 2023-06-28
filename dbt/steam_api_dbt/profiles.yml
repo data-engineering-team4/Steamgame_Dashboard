@@ -1,0 +1,13 @@
+steam_api_dbt:
+  outputs:
+    dev:
+      account: fp21669.ap-northeast-2.aws
+      database: STEAMAPI
+      password: "{{ env_var('dbt_password') }}"
+      role: ACCOUNTADMIN
+      schema: RAW_DATA
+      threads: 1
+      type: snowflake
+      user: "{{ env_var('dbt_user') }}"
+      warehouse: COMPUTE_WH
+  target: dev
