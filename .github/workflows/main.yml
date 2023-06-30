@@ -7,7 +7,7 @@ on: # 아래 job을 실행시킬 상황
 jobs:
   deploy:
     name: deploy
-    runs-on: ubuntu-latest # 실행될 인스턴스 OS와 버전
+    runs-on: ubuntu-latest
 
     steps:
       - name: excuting remote ssh commands
@@ -18,5 +18,4 @@ jobs:
           key: ${{ secrets.REMOTE_PRIVATE_KEY }} # ec2 instance pem key
           port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
           script: | # 실행할 스크립트
-            cd Steamgame_Dashboard/
-            sudo git pull
+            sh deploy.sh
