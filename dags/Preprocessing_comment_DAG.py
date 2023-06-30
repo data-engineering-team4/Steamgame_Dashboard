@@ -34,19 +34,11 @@ with DAG(
         catchup=False
 ) as dag:
     
-    #trigger_task = TriggerDagRunOperator(
-    #    task_id = 'trigger_task',
-    #    trigger_dag_id = '',
-    #    dag=dag
-    #)
-
-
     bucket_name = "steambucket4-2"
     folder_name = "comment_info"
     file_name = "comment_info"
     schema = "RAW_DATA"
     table="COMMENT_DATA"
-    stage="CSV_STAGE"
     aws_conn = BaseHook.get_connection("S3_conn")
     
     def get_game_info(**context):
@@ -66,34 +58,35 @@ with DAG(
     def get_game_comment_info(game_info):
         game_list = []
         for appid in game_info:
-
             try:
-                url_kor = f"https://store.steampowered.com/appreviews/{str(appid['GAME_ID'])}?json=1&num_per_page=200&l=korean"
+                url_kor = f"https://store.steampowered.com/appreviews/{str(appid['GAME_ID'])}?json=1&num_per_page=300&l=korean"
                 response_kor = requests.get(url_kor)
                 data_kor = response_kor.json()
-                #url_eng = f"https://store.steampowered.com/appreviews/{str(appid['GAME_ID'])}?json=1&num_per_page=100"
-                #response_eng = requests.get(url_eng)
-                #data_eng = response_eng.json()
-                #time.sleep(1)
-                if data_kor['success'] == 1:
-                    review_data=data_kor['reviews']    
+                time.sleep(1.1)
+                
+                url_eng = f"https://store.steampowered.com/appreviews/{str(appid['GAME_ID'])}?json=1&num_per_page=100"
+                response_eng = requests.get(url_eng)
+                data_eng = response_eng.json()
+                time.sleep(1.1)
+                
+                languages = ['KOR','ENG']
+                for n, review_data in enumerate([data_kor['reviews'],data_eng['reviews']]):
+                    language = languages[n]
                     for data in review_data:
                         app_dic = {}
                         app_dic['COMMENT_ID'] = data['recommendationid']
-                        app_dic['GAME_ID'] = str(appid['GAME_ID'])
+                        app_dic['GAME_ID'] = '578080'
                         app_dic['USER_ID'] = data['author']['steamid']
                         app_dic['TOTAL_PLAYTIME'] = data['author']['playtime_forever']
                         app_dic['LAST_TWO_WEEKS_PLAYTIME'] = data['author']['playtime_last_two_weeks']
-                        app_dic['COMMENT_CONTEXT'] = data['review'].replace('\n'," ")
+                        app_dic['COMMENT_CONTEXT'] = data['review'].replace('\n'," ").replace(',', " ")
+                        app_dic['LANGUAGE'] = language
                         game_list.append(app_dic)
-                    
-                else:
-                    logging.info(f"{appid} 적재 실패")
-                time.sleep(1.5)
+                
             except JSONDecodeError as e:
                 logging.info("JSON 디코딩 오류 발생: ", e)
                 logging.info(appid['GAME_ID'])
-                time.sleep(1.5)  # 1.5초간 대기
+                time.sleep(1.1)  # 1.5초간 대기
             logging.info(f"{appid} 적재 완료")
             
         return game_list
@@ -102,22 +95,12 @@ with DAG(
         csv_filename = "data/comment_info.csv"
         data = get_game_comment_info(get_game_info())
         
-        fieldnames = ['COMMENT_ID', 'GAME_ID', 'USER_ID', 'TOTAL_PLAYTIME', 'LAST_TWO_WEEKS_PLAYTIME', 'COMMENT_CONTEXT']
+        fieldnames = ['COMMENT_ID', 'GAME_ID', 'USER_ID', 'TOTAL_PLAYTIME', 'LAST_TWO_WEEKS_PLAYTIME', 'COMMENT_CONTEXT', 'LANGUAGE']
         
         df = pd.DataFrame.from_records(data, columns=fieldnames)
         df.to_csv(csv_filename, index=False)
 
         return csv_filename
-
-
-    '''
-    
-    def get_csv(**context):
-        csv_filename = "data/comment_info.csv"
-        logging.info(csv_filename)
-        return csv_filename
-    '''
-    
     
     def upload_csv_to_s3(**context):
         current_date = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -147,8 +130,6 @@ with DAG(
         
         return s3_key
     
-#s3keysensor로 파일 없으면 snowflake로 보내지 않기
-#temp에 테이블 데이터 다 저장해 두고 테이블 데이터 삭제 후 카피
     def s3_to_snowflake():
         s3_key= f"{folder_name}/{file_name}_{datetime.datetime.now().strftime('%Y-%m-%d')}.csv"
         snowflake_hook = SnowflakeHook(snowflake_conn_id='snowflake_raw_data')
@@ -168,6 +149,7 @@ with DAG(
                             , $4 AS TOTAL_PLAYTIME
                             , $5 AS LAST_TWO_WEEKS_PLAYTIME
                             , $6 AS COMMENT_CONTENT
+                            , $7 AS LANGUAGE
                         FROM '@s3_stage/{s3_key}';
             
             DELETE FROM {table};
@@ -181,15 +163,6 @@ with DAG(
         logging.info(query)
         snowflake_hook.run(query)
         logging.info("run finished snowflake")
-
-    '''
-    get_csv_task = PythonOperator(
-        task_id='get_csv_task',
-        python_callable=get_csv,
-        provide_context=True,
-        dag=dag
-    )
-    '''
 
     make_csv_task = PythonOperator(
         task_id='make_csv_task',
@@ -222,25 +195,5 @@ with DAG(
         python_callable=s3_to_snowflake,
         dag=dag
     )
-
-    #make_csv_task >> 
-    #get_csv_task >> upload_to_s3_task
-    
-    '''
-    s3_to_snowflake_task = S3ToSnowflakeOperator(
-        task_id='s3_to_snowflake_task',
-        s3_bucket=bucket_name,
-        s3_key= f"{folder_name}/{file_name}_{datetime.datetime.now().strftime('%Y-%m-%d')}.csv",
-        schema=schema,
-        table=table,
-        stage=stage,
-        file_format="(type = 'CSV',field_delimiter = ',')",
-        snowflake_conn_id='snowflake_raw_data',
-        aws_access_key_id = aws_conn.login,
-        aws_secret_access_key = aws_conn.password,
-        dag=dag
-    )
-    '''
     
     make_csv_task >> upload_to_s3_task  >> check_csv_file_exists_task >> s3_to_snowflake_task
-    #get_csv_task >> upload_to_s3_task  >> s3_to_snowflake_task

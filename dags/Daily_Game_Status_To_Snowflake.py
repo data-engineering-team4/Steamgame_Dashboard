@@ -3,6 +3,7 @@ import datetime
 from airflow import DAG
 
 from airflow.providers.snowflake.hooks.snowflake import SnowflakeHook
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from airflow.operators.python import PythonOperator
@@ -223,5 +224,10 @@ with DAG(
         
         check_csv_file_exists_task >> s3_to_snowflake_task
     
+    trigger_comment_data_dag = TriggerDagRunOperator(
+        task_id='trigger_comment_data_dag',
+        trigger_dag_id='comment_data',  # game_status 대그의 ID로 변경해야 함
+        execution_date="{{ execution_date }}"
+    )
         
-    section_make_csv >> upload_to_s3_task >> section_s3_to_snowflake
+    section_make_csv >> upload_to_s3_task >> section_s3_to_snowflake >> trigger_comment_data_dag
