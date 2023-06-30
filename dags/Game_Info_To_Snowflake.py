@@ -4,6 +4,7 @@ from airflow import DAG
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
 from airflow.providers.snowflake.hooks.snowflake import SnowflakeHook
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow.operators.python import PythonOperator
 from airflow.models import XCom
 from airflow.hooks.base import BaseHook
@@ -12,11 +13,11 @@ from plugins import slack
 
 
 import steamspypi
-import csv
 import requests
 import time
 from requests.exceptions import JSONDecodeError
 import os
+import pandas as pd
 
 default_args = {
     'owner': 'Song',
@@ -39,23 +40,17 @@ with DAG(
     file_name = "game_info"
     schema = "RAW_DATA"
     table="GAME_INFO"
-    stage="CSV_STAGE"
     aws_conn = BaseHook.get_connection("S3_conn")
     
     def make_csv(**context):
         csv_filename = "data/game_info.csv"
         data = get_popular_game()
-        file_exists = os.path.exists(csv_filename)
-        mode = 'w' if not file_exists else 'w+'
 
-        with open(csv_filename, mode, newline='') as csvfile:
-            fieldnames = ['game_id', 'game_name', 'price', 'discount_percentage', 'release_date', 'thumbnail_path',
-                          'genre', 'negative_cnt', 'positive_cnt']
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writeheader()
-
-            for game in data:
-                writer.writerow(game)
+        columns = ['game_id', 'game_name', 'price', 'discount_percentage', 'release_date', 'thumbnail_path',
+                   'genre', 'negative_cnt', 'positive_cnt']
+        
+        df = pd.DataFrame.from_records(data, columns=columns)  # 데이터프레임 생성
+        df.to_csv(csv_filename, index=False)  # CSV 파일로 저장
 
         return csv_filename
 
@@ -65,6 +60,7 @@ with DAG(
         data_request['page'] = '0'
 
         data = steamspypi.download(data_request)
+        logging.info(data)
         game_list = []
         for app_id, app_info in data.items():
             game = {
@@ -73,6 +69,8 @@ with DAG(
                 'negative_cnt': app_info['negative']
             }
             game_list.append(game)
+        
+        logging.info(game_list)
 
         get_game_detail_info(game_list)
 
@@ -82,6 +80,8 @@ with DAG(
     def get_game_detail_info(game_list):
         for i, game in enumerate(game_list):
             try:
+                if i == 10:
+                    break
                 url = f"https://store.steampowered.com/api/appdetails?appids={str(game['game_id'])}&l=korean"
                 response = requests.get(url)
                 data = response.json()
@@ -196,7 +196,7 @@ with DAG(
             
             DELETE FROM {table};
             
-            INSERT INTO GAME_INFO
+            INSERT INTO {table}
             SELECT tmp.*
               FROM temp_table tmp;
             
@@ -240,5 +240,11 @@ with DAG(
         python_callable=s3_to_snowflake,
         dag=dag
     )
+    
+    trigger_game_status_dag = TriggerDagRunOperator(
+        task_id='trigger_game_status_dag',
+        trigger_dag_id='game_status',  # game_status 대그의 ID로 변경해야 함
+        execution_date="{{ execution_date }}"
+    )
 
-    make_csv_task >> upload_to_s3_task  >> check_csv_file_exists_task >> s3_to_snowflake_task
+    make_csv_task >> upload_to_s3_task  >> check_csv_file_exists_task >> s3_to_snowflake_task  >> trigger_game_status_dag
