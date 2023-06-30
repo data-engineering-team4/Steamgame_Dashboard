@@ -80,14 +80,11 @@ with DAG(
     def get_game_detail_info(game_list):
         for i, game in enumerate(game_list):
             try:
-                if i == 10:
-                    break
                 url = f"https://store.steampowered.com/api/appdetails?appids={str(game['game_id'])}&l=korean"
                 response = requests.get(url)
                 data = response.json()
                 game_info = data[str(game['game_id'])]
                 
-
                 if game_info["success"] and game_info["data"]["type"] == "game":
                     game_data = game_info["data"]
                     if not game_data["release_date"]["coming_soon"]:
