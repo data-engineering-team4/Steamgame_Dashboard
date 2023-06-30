@@ -84,7 +84,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/data:/opt/airflow/data
     - ${AIRFLOW_PROJ_DIR:-.}/connections.json:/opt/airflow/connections.json
     - ${AIRFLOW_PROJ_DIR:-.}/variables.json:/opt/airflow/variables.json
-  user: "${AIRFLOW_UID:-50000}:0"
+  user: "${AIRFLOW_UID:-1000}:0"
   depends_on:
     &airflow-common-depends-on
     redis:
