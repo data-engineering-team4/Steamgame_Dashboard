@@ -33,3 +33,5 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   steam_api_dbt:
+    analytics:
+      +materialized: table
