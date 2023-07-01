@@ -76,7 +76,7 @@ with DAG(
                     for data in review_data:
                         app_dic = {}
                         app_dic['COMMENT_ID'] = data['recommendationid']
-                        app_dic['GAME_ID'] = '578080'
+                        app_dic['GAME_ID'] =  str(appid['GAME_ID'])
                         app_dic['USER_ID'] = data['author']['steamid']
                         app_dic['TOTAL_PLAYTIME'] = data['author']['playtime_forever']
                         app_dic['LAST_TWO_WEEKS_PLAYTIME'] = data['author']['playtime_last_two_weeks']
