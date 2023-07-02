@@ -23,7 +23,7 @@ default_args = {
     'owner': 'Song',
     'retries': 1,
     'retry_delay': timedelta(minutes=2),
-    'on_failure_callback': slack.on_failure_callback
+    #'on_failure_callback': slack.on_failure_callback
 }
 
 with DAG(
@@ -46,8 +46,7 @@ with DAG(
         csv_filename = "data/game_info.csv"
         data = get_popular_game()
 
-        columns = ['game_id', 'game_name', 'price', 'discount_percentage', 'release_date', 'thumbnail_path',
-                   'genre', 'negative_cnt', 'positive_cnt']
+        columns = ['game_id', 'game_name', 'price', 'discount_percentage', 'release_date', 'thumbnail_path', 'genre', 'negative_cnt', 'positive_cnt']
         
         df = pd.DataFrame.from_records(data, columns=columns)  # 데이터프레임 생성
         df.to_csv(csv_filename, index=False)  # CSV 파일로 저장
@@ -55,35 +54,64 @@ with DAG(
         return csv_filename
 
     def get_popular_game():
+        save_game_list = []
+        
         data_request = dict()
-        data_request['request'] = 'all'
-        data_request['page'] = '0'
-
+        data_request['request'] = 'top100in2weeks'
+        
         data = steamspypi.download(data_request)
         logging.info(data)
-        game_list = []
+        
+        game_list = [i["GAME_ID"] for i in get_game_info()]
+        logging.info("DB에 저장된: ", game_list)
+        
         for app_id, app_info in data.items():
-            game = {
-                'game_id': app_info['appid'],
-                'positive_cnt': app_info['positive'],
-                'negative_cnt': app_info['negative']
-            }
-            game_list.append(game)
+            if app_id not in game_list: 
+                game_list.append(app_info['appid'])
         
         logging.info(game_list)
 
-        get_game_detail_info(game_list)
+        save_game_list = get_game_detail_info(game_list)
 
-        return game_list
+        return save_game_list
+    
+    def get_game_info():
+        snowflake_hook = SnowflakeHook(snowflake_conn_id='snowflake_raw_data')
 
+        # SQL 문 실행 및 결과 가져오기
+        sql = f'''
+        SELECT GAME_ID
+          FROM GAME_INFO
+        '''
+        result = snowflake_hook.get_pandas_df(sql).to_dict(orient='records')
+
+        # 결과를 딕셔너리 변수에 할당
+        game_info = result
+        logging.info(f"game_info {len(game_info)} data finished")
+        
+        return game_info
+    
 
     def get_game_detail_info(game_list):
-        for i, game in enumerate(game_list):
+        save_game_list = []
+        for i, game_id in enumerate(game_list):
             try:
-                url = f"https://store.steampowered.com/api/appdetails?appids={str(game['game_id'])}&l=korean"
+                data_request = dict()
+                data_request['request'] = 'appdetails'
+                data_request['appid'] = game_id
+                
+                data = steamspypi.download(data_request)
+                
+                game = {
+                    'game_id': data['appid'],
+                    'positive_cnt': data['positive'],
+                    'negative_cnt': data['negative']
+                }
+                
+                url = f"https://store.steampowered.com/api/appdetails?appids={str(game_id)}&l=korean"
                 response = requests.get(url)
                 data = response.json()
-                game_info = data[str(game['game_id'])]
+                game_info = data[str(game_id)]
                 
                 if game_info["success"] and game_info["data"]["type"] == "game":
                     game_data = game_info["data"]
@@ -124,16 +152,18 @@ with DAG(
                                     game["genre"] += genre["description"].replace(" ", "") 
                         except KeyError:
                             continue
+                    save_game_list.append(game)
+                    
                 else:
-                    game_list.pop(i)
-                    logging.info(game['game_id'], "정보 없음")
+                    logging.info(game_id, "정보 없음")
 
                 time.sleep(1.5)  # 1.5초간 대기
 
             except JSONDecodeError as e:
                 print("JSON 디코딩 오류 발생: ", e)
-                print(game['game_id'])
+                print(game_id)
                 time.sleep(1.5)  # 1.5초간 대기
+        return save_game_list
                 
     
     
@@ -199,8 +229,6 @@ with DAG(
             
             COMMIT;
         '''
-
-        
         logging.info(query)
         snowflake_hook.run(query)
         logging.info("run finished snowflake")
