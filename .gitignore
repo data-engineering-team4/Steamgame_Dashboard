@@ -172,3 +172,5 @@ logs/
 
 # dbt
 .user.yml
+
+secrets.json
