@@ -196,5 +196,11 @@ with DAG(
         python_callable=s3_to_snowflake,
         dag=dag
     )
+
+    trigger_analytcis_dag = TriggerDagRunOperator(
+        task_id='trigger_analytcis_dag',
+        trigger_dag_id='get_analytics',  # game_status 대그의 ID로 변경해야 함
+        execution_date="{{ execution_date }}"
+    )
     
-    make_csv_task >> upload_to_s3_task  >> check_csv_file_exists_task >> s3_to_snowflake_task
+    make_csv_task >> upload_to_s3_task  >> check_csv_file_exists_task >> s3_to_snowflake_task >> trigger_analytcis_dag
