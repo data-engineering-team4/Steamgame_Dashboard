@@ -12,17 +12,16 @@ default_args = {
 }
 
 with DAG(
-    dag_id = 'get_analytics_release_date',
+    dag_id = 'get_analytics',
     start_date=datetime.datetime(2023,6,26),
     schedule_interval="0 0 * * *",
-    max_active_runs=1,
     default_args=default_args, 
     catchup=False
 ) as dag:
 
-    get_analytcis_release_date = BashOperator(
-        task_id='get_analytics_release_date',
-        bash_command='cd /dbt/steam_api_dbt && dbt run --profiles-dir . --models analytics_release_date',
+    get_analytics = BashOperator(
+        task_id='get_analytics',
+        bash_command='cd /dbt/steam_api_dbt && dbt run --profiles-dir .',
         env={
             'dbt_user': '{{ var.value.dbt_snowflake_user }}',
             'dbt_password': '{{ var.value.dbt_snowflake_password }}',
@@ -31,4 +30,4 @@ with DAG(
         dag=dag
     )
 
-get_analytcis_release_date
+get_analytics
