@@ -94,6 +94,17 @@ x-airflow-common:
 
 services:
 
+  web:
+    build: 
+      context: ./Steamgame_Dashboard_Web
+    command: python3 manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Steamgame_Dashboard_Web:/code
+    # depends_on:
+    #   - db
+
   postgres:
     image: postgres:13
     environment:
