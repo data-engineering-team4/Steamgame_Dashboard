@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Steamgame_Dashboard.urls'
+ROOT_URLCONF = 'Steamgame_Dashboard_Web.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Steamgame_Dashboard.wsgi.application'
+WSGI_APPLICATION = 'Steamgame_Dashboard_Web.wsgi.application'
 
 
 # Database
