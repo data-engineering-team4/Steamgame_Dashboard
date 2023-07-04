@@ -31,15 +31,16 @@ h1 {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    background-color: black;
+    color: white;
 }
 
 .chart-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 20px;
+    background-color: black;
+    color: white;
 }
 
 .chart {
@@ -49,6 +50,8 @@ h1 {
     text-align: center;
     max-width: 100%;
     flex-basis: 50%;
+    background-color: black;
+    color: white;   
 }
 
 
