@@ -9,6 +9,8 @@ head {
 }
 
 body {
+    background-color: black;
+    color: white;
     font-family: 'doro', sans-serif;
     display: flex;
     justify-content: center;
@@ -18,8 +20,10 @@ body {
     padding: 0;
 }
 
+
 h1 {
     text-align: center;
+    color: white;
 }
 
 .chart-container {
@@ -31,10 +35,11 @@ h1 {
 
 .chart-wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-wrap: wrap;
-    margin-top: 30px;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
 }
 
 .chart {
@@ -47,7 +52,7 @@ h1 {
 }
 
 .chart-title {
-    margin-top: 70px;
+    margin-top: 500px;
 }
 
 footer {
