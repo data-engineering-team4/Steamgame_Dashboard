@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'doro';
-    src: url('A고속도로.TTF') format('truetype');
+    src: url('A고속도로.ttf') format('truetype');
 }
 
 body {
@@ -20,4 +20,8 @@ a:visited {
 a:hover {
     color: blue;
     text-decoration: underline;
+}
+
+#tableau-viz {
+    font-family: 'doro', sans-serif;
 }
