@@ -5,6 +5,7 @@
 
 body {
     font-family: 'doro', sans-serif;
+    text-align: center;
 }
 
 a:link {
@@ -21,7 +22,7 @@ a:hover {
     color: blue;
     text-decoration: underline;
 }
-
+ 
 #tableau-viz {
     font-family: 'doro', sans-serif;
 }
