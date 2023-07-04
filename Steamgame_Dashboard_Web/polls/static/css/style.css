@@ -11,29 +11,32 @@ h1 {
     text-align: center;
 }
 
-.chart-wrapper-1 {
-    width: 100%;
+.chart-wrapper {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.chart-wrapper-2 {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
     margin-bottom: 30px;
     text-align: center;
 }
   
 .chart {
+    margin: 10px;
     text-align: center;
-    width: calc(50% - 20px); 
+    Margin-bottom: 30px;
 }
-  
+
 .chart-title {
-    text-align: center;
     font-family: 'doro', sans-serif;
-    font-size: 1.5em;
+    text-align: center;
+}
+
+.chart:nth-child(1),
+.chart:nth-child(2) {
+    flex-basis: calc(50% - 20px);
+}
+
+footer {
+    text-align: center;
 }
