@@ -12,57 +12,60 @@
 		<h1>Steam Game Dashboard</h1>
 	</header>
     	<!-- 태블로 내장 코드 입력 -->
-        <div class="chart-wrapper-1">
+        <div class="chart-wrapper">
             <div class="chart">
                 <h3 class="chart-title">장르별 게임 긍정과 부정 비율</h3>
-                <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/__/sheet0' width='1920' height='929' token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImlzcyI6ImY4ZGZmMzUyLTZjNzItNDYwYS1iODc1LTc1NzA3YzEzNTYwOCIsImtpZCI6IjM0ZGI3NjcxLTg0MjQtNGUxMi1iZTU2LTg4MmNkMGI5M2ExZiJ9.eyJzdWIiOiJzdW5ob2tpbS5wdWJsaWNAZ21haWwuY29tIiwiYXVkIjoidGFibGVhdSIsIm5iZiI6MTY4ODQ4NTYxOCwianRpIjoiMTY4ODQ4NTcxNzY3NyIsImlzcyI6ImY4ZGZmMzUyLTZjNzItNDYwYS1iODc1LTc1NzA3YzEzNTYwOCIsInNjcCI6WyJ0YWJsZWF1OnZpZXdzOmVtYmVkIl0sImV4cCI6MTY4ODQ4NTgxOH0.bERvtAgsyiwvZgqIpefxyuu9_v64IZBcu_eUFo_wd9I"></tableau-viz>
+                <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/__/sheet0' width='1920' height='929' token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImlzcyI6ImY4ZGZmMzUyLTZjNzItNDYwYS1iODc1LTc1NzA3YzEzNTYwOCIsImtpZCI6IjM0ZGI3NjcxLTg0MjQtNGUxMi1iZTU2LTg4MmNkMGI5M2ExZiJ9.eyJzdWIiOiJzdW5ob2tpbS5wdWJsaWNAZ21haWwuY29tIiwiYXVkIjoidGFibGVhdSIsIm5iZiI6MTY4ODQ4NTYxOCwianRpIjoiMTY4ODQ4NTcxNzY3NyIsImlzcyI6ImY4ZGZmMzUyLTZjNzItNDYwYS1iODc1LTc1NzA3YzEzNTYwOCIsInNjcCI6WyJ0YWJsZWF1OnZpZXdzOmVtYmVkIl0sImV4cCI6MTY4ODQ4NTgxOH0.bERvtAgsyiwvZgqIpefxyuu9_v64IZBcu_eUFo_wd9I' toolbar='hidden'></tableau-viz>
             </div>
         <div>
-        <div class="chart-wrapper-1">   
+        <div class="chart-wrapper">   
             <div class="chart">
                 <h3 class="chart-title">가격대별 게임 인기도</h3>
                 <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/__/sheet2' width='1700' height='865' hideEditInDesktopButton="true" suppressDefaultEditBehavior="true"  hideTabs="true" hideEditButton="true"></tableau-viz>
             </div>
         </div>
-        <div class="chart-wrapper-1">   
+        <div class="chart-wrapper">
             <div class="chart">
                 <h3 class="chart-title">출시월별 게임 인기도</h3>
                 <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/__/sheet1' width='1500' height='865' hideEditInDesktopButton="true" suppressDefaultEditBehavior="true"  hideTabs="true" hideEditButton="true"></tableau-viz>
             </div>
         </div>
-        <div class="chart-wrapper-2">
+        <div class="chart-wrapper">
             <div class="chart">
                 <h3 class="chart-title">장르별 유저들의 총 플레이 타임</h3>
-                <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/2/sheet0' width='800' height='800' hideEditInDesktopButton="true" suppressDefaultEditBehavior="true"  hideTabs="true" hideEditButton="true"></tableau-viz>
+                <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/2/sheet0' width='800' height='800' toolbar = "hidden" hide-tabs></tableau-viz>
             </div>
             <div class="chart">
                 <h3 class="chart-title">총 플레이 타임이 높은 게임들</h3>
-                <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/2/sheet2' width='1500' height='800' hideEditInDesktopButton="true" suppressDefaultEditBehavior="true"  hideTabs="true" hideEditButton="true"></tableau-viz>
+                <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/2/sheet2' width='1500' height='800' toolbar = "hidden" hide-tabs></tableau-viz>
             </div>
         </div>
-        <div class="chart-wrapper-2">
+        <div class="chart-wrapper">
             <div class="chart">
                 <h3 class="chart-title">장르별 유저들의 최근 2 주 플레이 타임</h3>
-                <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/2/2' width='800' height='800' hideEditInDesktopButton="true" suppressDefaultEditBehavior="true" hideTabs="true" hideEditButton="true"></tableau-viz>      
+                <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/2/2' width='800' height='800' toolbar = "hidden" hide-tabs></tableau-viz>      
             </div>
             <div class="chart">
                 <h3 class="chart-title">최근 2 주 동안 플레이 타임이 높은 게임들</h3>
-                <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/2/2_1' width='1500' height='800' hideEditInDesktopButton="true" suppressDefaultEditBehavior="true" hideTabs="true" hideEditButton="true"></tableau-viz>
+                <tableau-viz src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/2/2_1' width='1500' height='800' toolbar = "hidden" hide-tabs></tableau-viz>
             </div>
         </div>
-        <div class="chart-wrapper-1">   
+        <div class="chart-wrapper">
             <div class="chart">
                 <h3 class="chart-title">일별 접속 유저 수 변동 TOP 15</h3>
                 <tableau-viz id='tableau-viz' src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/_16884707920210/2' width='1920' height='865' hideEditInDesktopButton="true" suppressDefaultEditBehavior="true" hideTabs="true" hideEditButton="true"></tableau-viz>
             </div>
         </div>
-        <div class="chart-wrapper-1">           
+        <div class="chart-wrapper">       
             <div class="chart">
                 <h3 class="chart-title">일별 리뷰 수 변동 TOP 15</h3>
                 <tableau-viz id='tableau-viz' src='https://prod-uk-a.online.tableau.com/t/steamgamedashboard/views/_16884707920210/3' width='1920' height='865' hideEditInDesktopButton="true" suppressDefaultEditBehavior="true" hideTabs="true" hideEditButton="true"></tableau-viz>
             </div>
         </div>
 </body>
+<footer>
+    <p>&copy; 2023 Steam Game Dashboard. All rights reserved.</p>
+</footer>
 </html>
 
 <script type='module' src='https://prod-uk-a.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script>
