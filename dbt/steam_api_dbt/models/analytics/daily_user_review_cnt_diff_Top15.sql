@@ -17,5 +17,5 @@ SELECT *
             ON A.GAME_ID = C.GAME_ID
            AND B.CREATE_DT = DATEADD(DAY, 1, A.CREATE_DT) 
     ) G
-WHERE RN <= 20 
+WHERE RN <= 15 
 ORDER BY START_DT, RN
