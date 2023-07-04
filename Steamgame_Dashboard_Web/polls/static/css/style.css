@@ -1,28 +1,16 @@
 @font-face {
     font-family: 'doro';
-    src: url('A고속도로.ttf') format('truetype');
+    src: url('A고속도로.TTF') format('truetype');
 }
 
 body {
-    font-family: 'doro', sans-serif;
     text-align: center;
 }
 
-a:link {
-    color: black;
-    text-decoration: none;
+h1 {
+    font-family: 'doro', sans-serif;
 }
 
-a:visited {
-    color: black;
-    text-decoration: none;
-}
-
-a:hover {
-    color: blue;
-    text-decoration: underline;
-}
- 
 #tableau-viz {
     font-family: 'doro', sans-serif;
 }
