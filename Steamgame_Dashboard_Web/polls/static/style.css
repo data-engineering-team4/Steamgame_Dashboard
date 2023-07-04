@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'doro';
+    src: url('A고속도로.TTF') format('truetype');
+}
+
+body {
+    font-family: 'doro', sans-serif;
+}
