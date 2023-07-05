@@ -16,8 +16,6 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin: 0;
-    padding: 0;
 }
 
 
@@ -43,7 +41,7 @@ h1 {
     background-color: black;
     color: white;
     margin-bottom: 500px; 
-
+}
 
 footer {
     margin-top: 100px;
