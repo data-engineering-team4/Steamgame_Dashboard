@@ -27,18 +27,9 @@ h1 {
 }
 
 .chart-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
-    color: white;
-}
-
-.chart-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
     background-color: black;
     color: white;
 }
@@ -48,10 +39,9 @@ h1 {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    max-width: 100%;
-    flex-basis: 50%;
     background-color: black;
-    color: white;   
+    color: white;
+    margin-bottom: 500px; /* 여백 크기를 조정해주세요 */
 }
 
 
