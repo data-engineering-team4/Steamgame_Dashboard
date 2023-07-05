@@ -3,18 +3,20 @@ import datetime
 import os
 from airflow import DAG
 from airflow.operators.bash import BashOperator
+from plugins import slack
 
 default_args = {
     'owner': 'analytics',
     'retries': 1,
     'retry_delay': timedelta(minutes=2),
-    # 'on_failure_callback': slack.on_failure_callback
+    'on_failure_callback': slack.on_failure_callback
 }
 
 with DAG(
     dag_id = 'get_analytics',
     start_date=datetime.datetime(2023,6,26),
     schedule_interval="0 0 * * *",
+    max_active_runs=1,
     default_args=default_args, 
     catchup=False
 ) as dag:
