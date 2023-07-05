@@ -17,7 +17,7 @@ body {
 h1 {
     text-align: center;
     color: white;
-    margin-bottom: 300px;
+    margin-bottom: 100px;
 }
 
 h2 {
@@ -27,9 +27,10 @@ h2 {
 }
 
 .chart-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     background-color: black;
     color: white;
 }
@@ -41,7 +42,7 @@ h2 {
     text-align: center;
     background-color: black;
     color: white;
-    margin-bottom: 100px; 
+    margin: 300px;
 }
 
 footer {
