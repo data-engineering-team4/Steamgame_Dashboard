@@ -3,11 +3,6 @@
     src: url('A고속도로.TTF') format('truetype');
 }
 
-head {
-    margin-top: 40px;
-    margin-bottom: 1500px;
-}
-
 body {
     background-color: black;
     color: white;
@@ -22,7 +17,13 @@ body {
 h1 {
     text-align: center;
     color: white;
-    margin-top: 1000px;
+    margin-bottom: 300px;
+}
+
+h2 {
+    text-align: center;
+    color: white;
+    margin-top: 300px;
 }
 
 .chart-container {
@@ -40,7 +41,7 @@ h1 {
     text-align: center;
     background-color: black;
     color: white;
-    margin-bottom: 500px; 
+    margin-bottom: 100px; 
 }
 
 footer {
