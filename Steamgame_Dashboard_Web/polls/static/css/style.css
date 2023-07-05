@@ -5,7 +5,7 @@
 
 head {
     margin-top: 40px;
-    margin-bottom: 1000px;
+    margin-bottom: 1500px;
 }
 
 body {
@@ -24,6 +24,7 @@ body {
 h1 {
     text-align: center;
     color: white;
+    margin-top: 1000px;
 }
 
 .chart-container {
@@ -41,8 +42,7 @@ h1 {
     text-align: center;
     background-color: black;
     color: white;
-    margin-bottom: 500px; /* 여백 크기를 조정해주세요 */
-}
+    margin-bottom: 500px; 
 
 
 footer {
