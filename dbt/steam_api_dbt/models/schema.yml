@@ -1,0 +1,20 @@
+version: 2
+models:
+  - name: src_game_info
+    columns:
+    - name: game_id
+      tests:
+        - unique
+        - not_null
+
+  - name: src_game_status
+    columns:
+    - name: game_id
+      tests:
+        - not_null
+
+  - name: src_comment_data
+    columns:
+    - name: comment_id
+      tests:
+        - not_null

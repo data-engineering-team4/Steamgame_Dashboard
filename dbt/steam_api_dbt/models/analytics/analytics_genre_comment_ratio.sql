@@ -1,5 +1,5 @@
 WITH gi AS (
-    SELECT genre, negative_cnt, positive_cnt FROM raw_data.game_info
+    SELECT genre, negative_cnt, positive_cnt FROM {{ref("src_game_info")}}
 )
 SELECT '액션' AS genre, SUM(positive_cnt) AS total_positive_cnt, SUM(negative_cnt) AS total_negative_cnt, COUNT(*) AS game_cnt
 FROM gi
