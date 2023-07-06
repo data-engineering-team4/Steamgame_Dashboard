@@ -22,8 +22,6 @@ h1 {
 h2 {
     text-align: center;
     color: white;
-    margin-top: 50px;
-    margin-bottom: 10px;
 }
 
 .chart-container {
@@ -42,7 +40,6 @@ h2 {
     text-align: center;
     background-color: black;
     color: white;
-    margin: 100px;
 }
 
 footer {
