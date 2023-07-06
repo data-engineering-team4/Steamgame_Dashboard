@@ -17,13 +17,12 @@ body {
 h1 {
     text-align: center;
     color: white;
-    margin-bottom: 100px;
 }
 
 h2 {
     text-align: center;
     color: white;
-    margin-top: 300px;
+    margin-top: 100px;
 }
 
 .chart-container {
@@ -42,7 +41,7 @@ h2 {
     text-align: center;
     background-color: black;
     color: white;
-    margin: 300px;
+    margin: 100px;
 }
 
 footer {
