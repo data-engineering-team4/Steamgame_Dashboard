@@ -10,10 +10,10 @@ SELECT *
              , C.PRICE
              , C.DISCOUNT_PERCENTAGE
              , C.THUMBNAIL_PATH
-          FROM RAW_DATA.GAME_STATUS A
-          JOIN RAW_DATA.GAME_STATUS B 
+          FROM {{ref("src_game_status")}} A
+          JOIN {{ref("src_game_status")}} B 
             ON A.GAME_ID = B.GAME_ID 
-          JOIN RAW_DATA.GAME_INFO C
+          JOIN {{ref("src_game_info")}} C
             ON A.GAME_ID = C.GAME_ID
            AND B.CREATE_DT = DATEADD(DAY, 1, A.CREATE_DT) 
     ) G
