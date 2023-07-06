@@ -1,0 +1,2 @@
+game_id,game_name,price,discount_percentage,release_date,thumbnail_path,genre,negative_cnt,positive_cnt
+999999,test,9999,0,2023-07,test,test,0,0
