@@ -30,7 +30,6 @@ default_args = {
 with DAG(
         dag_id='game_status',
         start_date=datetime.datetime(2023, 6, 26),
-        schedule_interval="1 0 * * *",
         max_active_runs=1,
         default_args=default_args,
         catchup=False
