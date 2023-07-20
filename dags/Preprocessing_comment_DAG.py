@@ -29,7 +29,6 @@ default_args = {
 with DAG(
         dag_id='comment_data',
         start_date=datetime.datetime(2023, 6, 26),
-        schedule_interval="2 0 * * *",
         max_active_runs=1,
         default_args=default_args,
         catchup=False
