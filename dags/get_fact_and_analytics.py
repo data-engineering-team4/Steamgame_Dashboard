@@ -9,7 +9,7 @@ default_args = {
     'owner': 'SUNHO',
     'retries': 1,
     'retry_delay': timedelta(minutes=2),
-    'on_failure_callback': slack.on_failure_callback
+    #'on_failure_callback': slack.on_failure_callback
 }
 
 with DAG(
