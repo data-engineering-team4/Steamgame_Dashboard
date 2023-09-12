@@ -8,14 +8,6 @@
 </div>
 <br>
 
-## 목차
-- [프로젝트 개요](#✔️-프로젝트-개요)
-- [Tech Stack](#⚒️-Tech-Stack)
-- [Architecture](#Architecture)
-- [Data Pipeline](#🌈-Data-pipeline)
-- [ERD](#🧩-ERD)
-- [결과](#🎁-결과)
-
 ## ✔️ 프로젝트 개요
 ### 목적
 - 전세계적으로 인기 있는 온라인 게임 유통 플랫폼인 Steam에서 제공하는 다양한 게임 데이터를 수집하고 분석하여 게임 업계의 동향과 트렌드를 파악한다.
@@ -48,7 +40,7 @@
 <br>
 
 
-## Architecture
+## 🏛️ Architecture
 ![image](https://github.com/data-engineering-team4/CorpAnalytica/assets/123959802/bdbae6b2-9ab0-4ffc-8593-b78c4e9b5312)
 <br>
 <br>
