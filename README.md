@@ -48,7 +48,7 @@
 <br>
 
 
-## 🏛️ Architecture
+## Architecture
 ![image](https://github.com/data-engineering-team4/CorpAnalytica/assets/123959802/bdbae6b2-9ab0-4ffc-8593-b78c4e9b5312)
 <br>
 <br>
