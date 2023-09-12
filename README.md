@@ -9,12 +9,12 @@
 <br>
 
 ## 목차
-- [프로젝트 개요](#프로젝트-개요)
-- [Tech Stack](#Tech-Stack)
-- [Architecture](#Architecture)
-- [Data Pipeline](#Data-pipeline)
-- [ERD](#ERD)
-- [결과](#결과)
+- [프로젝트 개요](#✔️-프로젝트-개요)
+- [Tech Stack](#⚒️-Tech-Stack)
+- [Architecture](#🏛️-Architecture)
+- [Data Pipeline](#🌈-Data-pipeline)
+- [ERD](#🧩-ERD)
+- [결과](#🎁-결과)
 
 ## ✔️ 프로젝트 개요
 ### 목적
